@@ -19,7 +19,6 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/add-flight">Add flight</a>
         </li>
-
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -28,23 +27,7 @@
     </div>
   </div>
 </nav>
-<div class="container">
-    <div class="row row-gap-5 mt-5">
-        {% for flight in flights %}
-            <div class="col-4">
-                <div class="card h-100" style="width: 18rem;">
-                  <img src="{{ flight.photo.url }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ flight.code }}</h5>
-                    <p class="card-text">{{ flight.airport_from }} - {{ flight.airport_to }}</p>
-                    <a href="{% url 'get-details' flight.id  %}" class="btn btn-primary">Details</a>
-                  </div>
-                </div>
-            </div>
-    {% endfor %}
-    </div>
-</div>
-
+<h1>{{ flight }}</h1>
 
 </body>
 </html>

@@ -22,6 +22,7 @@ class Pilot(models.Model):
     rank = models.CharField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # airlines = models.ManyToManyField("Airline", on_delete=models.CASCADE, related_name="pilots")
 
     def __str__(self):
         return f'{self.name} {self.surname}'
@@ -39,12 +40,17 @@ class Baloon(models.Model):
     def __str__(self):
         return f'{self.type} - {self.manufacturer}'
 
-
 class Airline(models.Model):
     name = models.CharField(max_length=255)
     year_of_establishment = models.CharField(max_length=255)
     num_planes = models.IntegerField(null=True, blank=True)
-    outside_EU = models.BooleanField(default=False)
+    num_sold_planes = models.IntegerField(null=True, blank=True)
+    outside_EU = \
+        models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+
+class AirlinePilot(models.Model):
+    airline = models.ForeignKey(Airline, on_delete=models.CASCADE)
+    pilot = models.ForeignKey(Pilot, on_delete=models.CASCADE)

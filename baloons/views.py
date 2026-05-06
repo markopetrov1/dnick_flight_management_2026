@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from baloons.forms import FlightForm
 from baloons.models import Flight
@@ -19,8 +19,6 @@ def add_flight(request):
         form = FlightForm(request.POST, request.FILES)
 
         if form.is_valid():
-            import pdb
-            pdb.set_trace()
             flight = form.save(commit=False)
             flight.user = request.user
             flight.save()
@@ -31,3 +29,14 @@ def add_flight(request):
             'form': form
         }
         return render(request, 'add-flight.html', context=data)
+
+
+
+def get_details(request, id):
+    # flight = Flight.objects.filter(id=id).first()
+
+    flight = get_object_or_404(Flight, id=id)
+    data = {
+        'flight': flight
+    }
+    return render(request, 'details.html', data)

@@ -19,10 +19,11 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from baloons.views import homepage, add_flight
+from baloons.views import homepage, add_flight, get_details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage, name='homepage'),
-    path('add-flight/', add_flight, name='add-flight')
+    path('add-flight/', add_flight, name='add-flight'),
+    path('flights/<id>/', get_details, name='get-details')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

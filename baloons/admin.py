@@ -1,6 +1,15 @@
 from django.contrib import admin
-from baloons.models import Airline, Pilot, Flight, Baloon, User
+from baloons.models import Airline, Pilot, Flight, Baloon, User, AirlinePilot
 
+
+# # admin.TabularInline
+# class FlightAdminInline(admin.StackedInline):
+#     extra = 1
+#     model = Flight
+
+class AirlinePilotInlineAdmin(admin.TabularInline):
+    model = AirlinePilot
+    extra = 0
 
 class PilotAdmin(admin.ModelAdmin):
     list_per_page = 50
@@ -11,6 +20,7 @@ class PilotAdmin(admin.ModelAdmin):
     ordering = ['total_hours_of_flight', 'year_of_birth']
     fields = ['name','surname', 'year_of_birth',  'created_at', 'updated_at']
 
+    inlines = [AirlinePilotInlineAdmin,]
 
     @admin.display(
         description="Level of experience"
@@ -55,6 +65,15 @@ class FlightAdmin(admin.ModelAdmin):
             obj.user = request.user
 
         super(FlightAdmin, self).save_model(request, obj, form, change)
+
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        if request.user.is_superuser:
+            return qs
+
+        return qs.filter(user=request.user)
 
 
 class BaloonAdmin(admin.ModelAdmin):
